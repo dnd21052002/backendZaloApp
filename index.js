@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const userRoutes = require('./routes/userRoutes');
 const eventRoutes = require('./routes/eventRouter');
 const attendanceRoutes = require('./routes/attendanceRouter');
+const departmentRoutes = require('./routes/departmentRouter');
 const dotenv = require("dotenv")
 const app = express();
 const connectDatabase = require("./config/db");
@@ -16,6 +17,7 @@ dotenv.config();
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/event', eventRoutes);
 app.use('/api/v1/attendance', attendanceRoutes);
+app.use('/api/v1/department', departmentRoutes)
 
 // Khởi động server
 connectDatabase().then((res) => {

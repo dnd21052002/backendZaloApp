@@ -63,21 +63,25 @@ const getUserByStudentId = async (req, res) => {
 
     res.status(200).json(responseObject);
   } catch (error) {
+    console.log(error)
     res.status(400).json({ success: false, error: error.message });
   }
 };
 
-const updateUserByPhone = async (req, res) => {
+const updateUserById = async (req, res) => {
   try {
-    const { phone } = req.params;
+    const { id } = req.params;
     const updateData = req.body;
 
-    const updatedUser = await User.findOneAndUpdate({ phone }, updateData, {
+    const updatedUser = await User.findOneAndUpdate({ id }, updateData, {
       new: true,
     });
 
     if (!updatedUser) {
-      res.status(404).json({ success: false });
+      const createUser = new User(updateData);
+      await createUser.save();
+      // res.status(404).json({ success: false });
+      res.status(200).json({ success: true });
     } else {
       res.status(200).json({ success: true });
     }
@@ -89,6 +93,6 @@ const updateUserByPhone = async (req, res) => {
 module.exports = {
   createUser,
   getUserByPhone,
-  updateUserByPhone,
+  updateUserById,
   getUserByStudentId,
 };
