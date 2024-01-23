@@ -8,72 +8,87 @@ const createUser = async (req, res) => {
       className,
       deviceId,
       department,
-      studentId, // Thêm trường studentId từ req.body
+      studentId,
     } = req.body;
 
     const existingUser = await User.findOne({ phone });
 
     if (existingUser) {
-      return res.status(400).json({ message: 'Số điện thoại đã tồn tại trong hệ thống.' });
+      res.status(400).json({ success: false });
+    } else {
+      const newUser = new User({
+        phone,
+        fullName,
+        className,
+        deviceId,
+        department,
+        studentId,
+      });
+
+      const savedUser = await newUser.save();
+
+      res.status(201).json({ success: true });
     }
-
-    const newUser = new User({
-      phone,
-      fullName,
-      className,
-      deviceId,
-      department,
-      studentId, // Thêm studentId vào người dùng mới
-    });
-
-    const savedUser = await newUser.save();
-
-    res.status(201).json(savedUser);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 };
 
-
 const getUserByPhone = async (req, res) => {
-    try {
-      const { phone } = req.params;
-  
-      // Tìm người dùng dựa trên số điện thoại
-      const user = await User.findOne({ phone });
-  
-      if (!user) {
-        return res.status(404).json({ message: 'Người dùng không được tìm thấy.' });
-      }
-  
-      res.status(200).json(user);
-    } catch (error) {
-      res.status(400).json({ message: error.message });
-    }
-  };
+  try {
+    const { phone } = req.params;
 
-  const updateUserByPhone = async (req, res) => {
-    try {
-      const { phone } = req.params;
-      const updateData = req.body;
-  
-      const updatedUser = await User.findOneAndUpdate({ phone }, updateData, {
-        new: true,
-      });
-  
-      if (!updatedUser) {
-        return res.status(404).json({ message: 'Người dùng không được tìm thấy.' });
-      }
-  
-      res.status(200).json(updatedUser);
-    } catch (error) {
-      res.status(400).json({ message: error.message });
+    const user = await User.findOne({ phone });
+
+    if (!user) {
+      res.status(404).json({ success: false });
+    } else {
+      res.status(200).json({ success: true });
     }
-  };
-  
+  } catch (error) {
+    res.status(400).json({ success: false, error: error.message });
+  }
+};
+
+const getUserByStudentId = async (req, res) => {
+  try {
+    const { studentId } = req.params;
+
+    const user = await User.findOne({ studentId });
+
+    const responseObject = {
+      success: !!user,
+      user: user || null,
+    };
+
+    res.status(200).json(responseObject);
+  } catch (error) {
+    res.status(400).json({ success: false, error: error.message });
+  }
+};
+
+const updateUserByPhone = async (req, res) => {
+  try {
+    const { phone } = req.params;
+    const updateData = req.body;
+
+    const updatedUser = await User.findOneAndUpdate({ phone }, updateData, {
+      new: true,
+    });
+
+    if (!updatedUser) {
+      res.status(404).json({ success: false });
+    } else {
+      res.status(200).json({ success: true });
+    }
+  } catch (error) {
+    res.status(400).json({ success: false, error: error.message });
+  }
+};
 
 module.exports = {
   createUser,
   getUserByPhone,
   updateUserByPhone,
+  getUserByStudentId,
 };
