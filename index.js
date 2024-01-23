@@ -1,23 +1,26 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/userRoutes');
-
+const eventRoutes = require('./routes/eventRouter');
+const attendanceRoutes = require('./routes/attendanceRouter');
+const dotenv = require("dotenv")
 const app = express();
-app.use(express.json());
+const connectDatabase = require("./config/db");
+const PORT = process.env.PORT || 5000;
 
-// Kết nối tới MongoDB
-mongoose.connect('mongodb://localhost:27017/myapp', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-  .then(() => console.log('Connected to MongoDB'))
-  .catch((err) => console.error('Connection error:', err));
+app.use(express.json());
+dotenv.config();
+
 
 // Sử dụng routes liên quan đến người dùng
-app.use('/users', userRoutes);
+app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/event', eventRoutes);
+app.use('/api/v1/attendance', attendanceRoutes);
 
 // Khởi động server
-const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+connectDatabase().then((res) => {
+  console.log(res);
+  app.listen(PORT, () => {
+    console.log(`Listening to port ${PORT}`);
+  });
 });
