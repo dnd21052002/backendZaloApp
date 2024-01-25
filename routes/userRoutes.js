@@ -11,6 +11,6 @@ router.get('/phone/:phone', getUserByPhone);
 router.get('/:id', getUserByStudentId);
 
 // Route để cập nhật thông tin người dùng dựa trên số điện thoại
-router.post('/:phone', updateUserByPhone);
+router.post('/phone/:phone', updateUserByPhone);
 
 module.exports = router;
