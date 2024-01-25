@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { createUser, getUserByPhone, updateUserById, getUserByStudentId } = require('../controllers/UserController');
+const { createUser, getUserByPhone, updateUserByPhone, getUserByStudentId } = require('../controllers/UserController');
 
 // Route để đăng ký người dùng
 router.post('/register', createUser);
@@ -11,6 +11,6 @@ router.get('/phone/:phone', getUserByPhone);
 router.get('/:id', getUserByStudentId);
 
 // Route để cập nhật thông tin người dùng dựa trên số điện thoại
-router.post('/:id', updateUserById);
+router.post('/:phone', updateUserByPhone);
 
 module.exports = router;

@@ -68,12 +68,12 @@ const getUserByStudentId = async (req, res) => {
   }
 };
 
-const updateUserById = async (req, res) => {
+const updateUserByPhone = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { phone } = req.params;
     const updateData = req.body;
 
-    const updatedUser = await User.findOneAndUpdate({ id }, updateData, {
+    const updatedUser = await User.findOneAndUpdate({ phone }, updateData, {
       new: true,
     });
 
@@ -93,6 +93,6 @@ const updateUserById = async (req, res) => {
 module.exports = {
   createUser,
   getUserByPhone,
-  updateUserById,
+  updateUserByPhone,
   getUserByStudentId,
 };
