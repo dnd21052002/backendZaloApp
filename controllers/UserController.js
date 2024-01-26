@@ -50,11 +50,11 @@ const getUserByPhone = async (req, res) => {
   }
 };
 
-const getUserByStudentId = async (req, res) => {
+const getUserByZaloId = async (req, res) => {
   try {
-    const { studentId } = req.params;
+    const { zaloId } = req.params;
 
-    const user = await User.findOne({ studentId });
+    const user = await User.findOne({ zaloId });
 
     const responseObject = {
       success: !!user,
@@ -94,5 +94,5 @@ module.exports = {
   createUser,
   getUserByPhone,
   updateUserByPhone,
-  getUserByStudentId,
+  getUserByZaloId,
 };
