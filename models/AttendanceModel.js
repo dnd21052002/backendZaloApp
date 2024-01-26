@@ -7,13 +7,17 @@ const attendanceSchema = new mongoose.Schema({
   eventId: {
     type: mongoose.Types.ObjectId,
   },
-  listAction: [
+  timeLineAtten: [
     {
       date: { type: Date, default: Date.now },
     },
   ],
   imgAtten:{
     type: String
+  },
+  statusAttendance: {
+    type: Boolean,
+    default: false
   }
 });
 

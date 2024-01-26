@@ -6,6 +6,7 @@ router.post('/', attendanceController.markAttendance);
 
 router.get('/user/:userId', attendanceController.getAttendanceByUserId);
 
+// router.get('/', attendanceController.getEventByAttendance);
 // Add more routes as needed
 
 module.exports = router;
