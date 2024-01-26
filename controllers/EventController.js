@@ -27,13 +27,15 @@ exports.getEventById = async (req, res) => {
 
 // Create
 exports.createEvent = async (req, res) => {
-  const { title, description, date, img, location, organizer } = req.body;
+  const { title, description, date, beginTime, finishTime, img, location, organizer } = req.body;
 
   try {
     const newEvent = new Event({
       title,
       description,
       date,
+      beginTime,
+      finishTime,
       img,
       location,
       organizer,
