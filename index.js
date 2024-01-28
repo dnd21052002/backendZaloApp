@@ -5,13 +5,14 @@ const eventRoutes = require('./routes/eventRouter');
 const attendanceRoutes = require('./routes/attendanceRouter');
 const departmentRoutes = require('./routes/departmentRouter');
 const dotenv = require("dotenv")
+const cors = require('cors');
 const app = express();
 const connectDatabase = require("./config/db");
 const PORT = process.env.PORT || 5000;
-
 app.use(express.json());
 dotenv.config();
 
+app.use(cors());
 
 // Sử dụng routes liên quan đến người dùng
 app.use('/api/v1/users', userRoutes);
